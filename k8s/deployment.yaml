@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversa-temperatura
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: conversa-temperatura
+  template:
+    metadata:
+      labels:
+        app: conversa-temperatura
+    spec:
+      containers:
+        - name: conversa-temperatura
+          image: joyran/conversao-temperatura:v1
+          ports:
+          - containerPort: 80
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversa-temperatura
+spec:
+  selector:
+    app: conversa-temperatura
+  ports:
+    - port: 8080
+      nodePort: 30001
+  type: NodePort
